@@ -1,11 +1,7 @@
 #!/bin/bash
 
-# Function to generate a random special character
-random_special_char() {
-  local special_chars="!@#$%^&*()_+[]{}|;:,.<>?/~"
-  local index=$(( RANDOM % ${#special_chars} ))
-  echo "${special_chars:$index:1}"
-}
+# Function to generate a list of special characters
+special_chars="!@#$%^&*()_+[]{}|;:,.<>?/~"
 
 # Function to display help message
 display_help() {
@@ -51,8 +47,9 @@ fi
 generate_strings() {
   local base_string="$1"
   for i in $(seq 0 999999); do
-    special_char=$(random_special_char)
-    echo "${base_string}${i}${special_char}" >> "$output_file"
+    for char in $(echo "$special_chars" | fold -w1); do
+      echo "${base_string}${i}${char}" >> "$output_file"
+    done
   done
 }
 
